@@ -3,6 +3,17 @@ echo $CTX_CLUSTER2
 
 sleep 2
 
+rm -rf certs
+mkdir -p certs
+pushd certs
+
+make -f $ISTIO/tools/certs/Makefile.selfsigned.mk root-ca
+make -f $ISTIO/tools/certs/Makefile.selfsigned.mk cluster1-cacerts
+make -f $ISTIO/tools/certs/Makefile.selfsigned.mk cluster2-cacerts
+
+
+popd
+
 kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
 kubectl --context="${CTX_CLUSTER1}" create secret generic cacerts -n istio-system \
       --from-file=certs/cluster1/ca-cert.pem \
