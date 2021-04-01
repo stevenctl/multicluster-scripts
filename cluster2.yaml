@@ -1,8 +1,10 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  # revision: rev1
   values:
     global:
+      imagePullPolicy: Always
       meshID: mesh1
       multiCluster:
         clusterName: cluster2
