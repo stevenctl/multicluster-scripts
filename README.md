@@ -1,8 +1,28 @@
-1. `cp .envtemplate .env`
-2. Edit `.env` and fill in contexts
-3. `./cleanup.sh` 
-4. `./setup.sh`
-5. `./deploy-verify.sh`
-6. Wait until sleep and helloworld pods are ready
-7. `./validate.sh` and ensure echo responses come from both clusters
-8. `./cleanup.sh`
+# mcsetup
+
+Utils for installing/cleaning Istio multi-cluster installations. 
+
+## setup.sh
+
+Install Istion on each cluster as a primary cluster and connects them all with remote secrets:
+
+```bash
+./setup.sh ctx1 ctx2
+```
+
+## cleanup.sh
+
+Removes namespaces, CRDs, webhooks, etc.
+
+```bash
+./cleanup.sh ctx1 ctx2
+```
+
+## verify.sh/deploy-verify.sh
+
+Used to run the helloworld based verification... only works for 2 clusters; needs rewrite to match setup/cleanup.
+
+## patch-istiod.sh
+
+Used to change the image for istiod in each cluster.. needs rewrite
+ 

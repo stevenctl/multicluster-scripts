@@ -1,12 +1,14 @@
-echo $CTX_CLUSTER1
-echo $CTX_CLUSTER2
-echo $CTX_CLUSTER3
+#!/usr/bin/env bash
 
-sleep 2
+source lib.sh
+export CLUSTERS
+export CONTEXTS
+init $@
+prompt
 
 declare -a PIDS
 
-for ctx in "${CTX_CLUSTER1}" "${CTX_CLUSTER2}" "${CTX_CLUSTER3}"; do
+for ctx in "${CONTEXTS[@]}"; do
   echo "cleaning $ctx"
   kubectl --context="${ctx}" delete namespace istio-system &
   PIDS+=($!)
@@ -24,9 +26,10 @@ for ctx in "${CTX_CLUSTER1}" "${CTX_CLUSTER2}" "${CTX_CLUSTER3}"; do
   PIDS+=($!)
   kubectl --context="${ctx}" delete clusterrolebinding istio-reader-istio-system &
   PIDS+=($!)
+  kubectl --context="${ctx}" get crd | grep istio | xargs -n1 kubectl --context="${ctx}" delete crd &
+  PIDS+=($!)
 done
 
 for pid in "${PIDS[@]}"; do
   wait $pid
 done
-
