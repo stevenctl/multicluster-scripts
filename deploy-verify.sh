@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 kubectl create --context="${CTX_CLUSTER1}" namespace sample
 kubectl create --context="${CTX_CLUSTER2}" namespace sample
 

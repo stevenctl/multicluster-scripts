@@ -4,7 +4,7 @@ function init() {
   export CONTEXTS=("$@")
   if [ "${#CONTEXTS[@]}" -eq 0 ]; then
     echo "No contexts specified.. grabbing using 'kubectl config get-contexts -oname'"
-    CONTEXTS=(`kubectl config get-contexts -oname`)
+    CONTEXTS=(`kubectl config get-contexts -oname | grep -v internal`)
   fi
   
   if [ "${#CONTEXTS[@]}" -eq 0 ]; then

@@ -51,7 +51,7 @@ for i in "${!CLUSTERS[@]}"; do
   echo "  $c:"
   echo "    installing istio"
   cat <<EOF > "$c.yaml"
-  apiVersion: install.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   # revision: rev1
@@ -60,7 +60,7 @@ spec:
       imagePullPolicy: Always
       meshID: mesh1
       multiCluster:
-        clusterName: cluster2
+        clusterName: $c 
       network: network1
 EOF
   istioctl install --context="${ctx}" -f "$c.yaml" -y --set hub="$HUB" --set tag="$TAG" &
